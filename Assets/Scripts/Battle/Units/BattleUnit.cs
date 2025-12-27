@@ -22,9 +22,8 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] private int currentAttack;
     [SerializeField] private int currentDefense;
     [SerializeField] private int currentSpeed;
-    [SerializeField] private int currentMana = 0;
-    [SerializeField] private int maxMana = 100;
-
+    // [SerializeField] private int currentMana = 0;  
+    // [SerializeField] private int maxMana = 100;   
     [Header("Battle State")]
     [SerializeField] private bool isAlive = true;
     [SerializeField] private bool isSelected = false;

@@ -1,43 +1,43 @@
-﻿// BattleUIAutoAssign.cs - добавьте этот скрипт к BattleUI GameObject
+﻿// BattleUIAutoAssign.cs (упрощенная версия)
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
 public class BattleUIAutoAssign : MonoBehaviour
 {
-    [ContextMenu("Auto Assign References")]
+    [ContextMenu("Auto Assign UI Elements")]
     void AutoAssign()
     {
         BattleUI battleUI = GetComponent<BattleUI>();
         if (battleUI == null) return;
 
-        // Находим все элементы по имени
-        battleUI.turnText = GameObject.Find("TurnText")?.GetComponent<Text>();
-        battleUI.goldText = GameObject.Find("GoldText")?.GetComponent<Text>();
-        battleUI.roundText = GameObject.Find("RoundText")?.GetComponent<Text>();
+        // Автоматически находим элементы по имени
+        battleUI.turnText = FindComponent<TextMeshProUGUI>("TurnText");
+        battleUI.goldText = FindComponent<TextMeshProUGUI>("GoldText");
+        battleUI.roundText = FindComponent<TextMeshProUGUI>("RoundText");
 
         // Панели
-        battleUI.preparationPanel = GameObject.Find("PreparationPanel")?.gameObject;
-        battleUI.battlePanel = GameObject.Find("BattleUI")?.gameObject; // или другая панель
-        battleUI.resultsPanel = GameObject.Find("ResultsPanel")?.gameObject;
-        battleUI.resultsText = GameObject.Find("ResultsText")?.GetComponent<Text>();
-
-        // Панель информации о юните
-        battleUI.unitInfoPanel = GameObject.Find("UnitInfoPanel")?.gameObject;
-        battleUI.unitNameText = GameObject.Find("UnitNameText")?.GetComponent<Text>();
-        battleUI.unitHealthText = GameObject.Find("HealthText")?.GetComponent<Text>();
-        battleUI.healthSlider = GameObject.Find("HealthSlider")?.GetComponent<Slider>();
+        battleUI.topPanel = GameObject.Find("TopPanel");
+        battleUI.battlePanel = GameObject.Find("BattlePanel");
+        battleUI.unitInfoPanel = GameObject.Find("UnitInfoPanel");
+        battleUI.preparationPanel = GameObject.Find("PreparationPanel");
+        battleUI.resultsPanel = GameObject.Find("ResultsPanel");
 
         // Кнопки
-        battleUI.moveButton = GameObject.Find("MoveButton")?.GetComponent<Button>();
-        battleUI.attackButton = GameObject.Find("AttackButton")?.GetComponent<Button>();
-        battleUI.waitButton = GameObject.Find("WaitButton")?.GetComponent<Button>();
-        battleUI.endTurnButton = GameObject.Find("EndTurnButton")?.GetComponent<Button>();
+        battleUI.moveButton = FindComponent<Button>("MoveButton");
+        battleUI.attackButton = FindComponent<Button>("AttackButton");
+        battleUI.waitButton = FindComponent<Button>("WaitButton");
+        battleUI.endTurnButton = FindComponent<Button>("EndTurnButton");
+        battleUI.startBattleButton = FindComponent<Button>("StartBattleButton");
+        battleUI.continueButton = FindComponent<Button>("ContinueButton");
 
-        Debug.Log("Auto-assignment completed!");
+        Debug.Log("UI элементы автоматически назначены!");
     }
 
-    void Start()
+    T FindComponent<T>(string name) where T : Component
     {
-        AutoAssign();
+        GameObject obj = GameObject.Find(name);
+        if (obj != null) return obj.GetComponent<T>();
+        return null;
     }
 }

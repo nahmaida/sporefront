@@ -14,16 +14,24 @@ public class ShopUI : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
+        // может быть открыт только один магазин
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
+            Destroy(gameObject);
+            return;
         }
+        Instance = this;
     }
 
     void Start()
     {
         if (refreshButton != null) refreshButton.onClick.AddListener(OnRefreshClicked);
         if (closeShopButton != null) closeShopButton.onClick.AddListener(OnCloseClicked);
+    }
+
+    public void CloseClicked()
+    {
+        OnCloseClicked();
     }
 
     public void OpenShop()
@@ -54,6 +62,20 @@ public class ShopUI : MonoBehaviour
         }
     }
 
+    public void RebindButtons()
+    {
+        if (refreshButton != null)
+        {
+            refreshButton.onClick.RemoveListener(OnRefreshClicked);
+            refreshButton.onClick.AddListener(OnRefreshClicked);
+        }
+        if (closeShopButton != null)
+        {
+            closeShopButton.onClick.RemoveListener(OnCloseClicked);
+            closeShopButton.onClick.AddListener(OnCloseClicked);
+        }
+    }
+
     void UpdateUI()
     {
         if (ShopManager.Instance != null)
@@ -74,6 +96,7 @@ public class ShopUI : MonoBehaviour
 
     void OnCloseClicked()
     {
+        Debug.Log("Магазин закрыт");
         CloseShop();
         if (BattleManager.Instance != null)
         {
